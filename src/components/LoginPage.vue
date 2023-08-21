@@ -1,29 +1,35 @@
 <template>
-    <v-container class="background d-flex justify-center " fluid fill-height>
 
-        <v-col cols="5" lg="5" height="100%" >
+    <v-container class="background d-flex justify-center " fluid fill-height>
+        <v-snackbar globalTop color="green" v-model="snackbar">
+        Login Successful
+    </v-snackbar>
+        <v-col cols="false" lg="5" height="100%" >
             <v-card color="#324A5F" class="pa-4 justify-center align-center" height="100%">
-                <!-- <div style="width: 30%;"><h1 class="gradient-3">QMC</h1></div> -->
+                <v-img src="../assets/smartech_White.png" alt="pc pic" width="40%" style="margin-left: 5%;">
+                    </v-img>
                 
-                <div class="text-center" style="margin-top: 25%;">
+                <div class="text-center" style="margin-top: 15%;">
                     <v-avatar size="50" color="#F4F6F8">
                         <v-icon size="40" color="#1d4370" >mdi-account</v-icon>
                     </v-avatar>
                     <h2 class="indigo--text" style="color: #F4F6F8;margin-top: 2%;">Login</h2>
                 </div>
-                <v-form style="margin-top: 5%;">
+                <v-form style="margin-top: 5%;" @submit.prevent="submitHandler" ref="form">
                     <v-card-text>
                         <v-text-field class="text-white" style="margin-left: 10%;margin-right: 10%;"
-                            type="email"
+                            v-model="login"
+                            :rules="loginRules"
                             label="Login"
                             placeholder="Login"
                             prepend-inner-icon="mdi-account"
 
                         >
                         </v-text-field>
-                        <v-text-field class="text-white" c style="margin-left: 10%;margin-right: 10%;"
+                        <v-text-field class="text-white" style="margin-left: 10%;margin-right: 10%;"
 
-                        
+                        v-model="password"
+                        :rules="passwordRules"
                             :append-inner-icon="passwordShow ? 'mdi-eye':'mdi-eye-off'"
                             :type="passwordShow ? 'text' : 'password'"
                             name="input-2"
@@ -33,42 +39,67 @@
                             @click:append-inner="passwordShow = !passwordShow"
                         >
                         </v-text-field>
+                        <v-switch label="Remember password" style="color:white;margin-left: 10%;margin-right: 10%;"></v-switch>
                     </v-card-text>
                     <v-card-actions class="justify-center">
-                        <v-btn class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 78%;margin-top: 0%;">
+                        <v-btn :loading="loading" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 78%;margin-top: -10%;">
                             <span>Login</span>
                         </v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card>
         </v-col>
-        <v-col cols="6" lg="6" height="100%" >
+        <v-col cols="false" lg="5" height="100%" >
             <v-card color="#0C1821" class="pa-4 justify-center align-center" height="100%" >
-                <div class="text-center" style="margin-top: 3%; ">
-                    <v-img src="../assets/logo.png" alt="Holcim logo" width="25%">
-                    </v-img>
-                    
-                </div>
+
+                    <CarousselComp style="height: 100%;"></CarousselComp>
                 <!-- <div class="img"></div> -->
 
             </v-card>
         </v-col>
     </v-container>
+
 </template>
 <script>
 
 
+import CarousselComp from './CarousselComp.vue'
 export default {
 
   components: {
+    CarousselComp,
   },
     data: () => ({
+        loading:false,
+        snackbar:false,
         passwordShow: false,
+        login: '',
+        loginRules: [
+            v => !!v || 'Login is Required',
+            v => (v && v.length < 10) || 'Login must be less than 10 characters' ,
+        ],
+        password: '',
+        passwordRules: [
+            v => !!v || 'Password is required',
+            v => (v && v.length >= 3) || 'Password must be atleast 3 charecters long'
+        ]
     }),
+    methods:{
+        submitHandler(){
+            if (this.$refs.form.validate()){
+                this.loading = true
+                setTimeout(()=>{
+                    this.loading = false
+                    this.snackbar = true
+                },2000)
+            }
+        }
+    }
+
 };
 </script>
 
-<style>
+<style scoped>
 .flexcard {
   display: flex;
   flex-direction: column;

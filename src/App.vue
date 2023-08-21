@@ -1,19 +1,19 @@
 <template>
   <v-app>
     <v-main>
-      <loginPage/>
+      <NotificationPage/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import loginPage from './components/LoginPage.vue'
+import NotificationPage from './components/NotificationsPage.vue'
 
 export default {
   name: 'App',
 
   components: {
-    loginPage,
+    NotificationPage,
   },
 
   data: () => ({
