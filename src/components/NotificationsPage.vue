@@ -8,6 +8,7 @@
                 <v-sheet class="pa-6 ma-6" style="background-color: white; 
     border: 2px solid black; " >
                     <v-row style="padding-top: 5%;padding-bottom: 5%;">
+                        
                         <v-img :src="item.image" alt="pc pic" width="40%"></v-img>
                     </v-row>
                     <v-row justify="center" style="padding-bottom: 5%;">
@@ -63,15 +64,15 @@
                             <v-btn prepend-icon="mdi-check-circle" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 80%;">
                                 Valid Detection
                             </v-btn>  
-                        </v-row>
-                        <v-row justify="center" style="padding-bottom: 3%;">
-                            <v-btn prepend-icon="mdi-delete" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 45%;">
-                                Ignore
-                            </v-btn>                
-                            <v-btn prepend-icon="mdi-download" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 45%;">
-                                Download
-                            </v-btn>
-                        </v-row>
+                            </v-row>
+                            <v-row justify="center" style="padding-bottom: 3%;">
+                                <v-btn prepend-icon="mdi-delete" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 45%;">
+                                    Ignore
+                                </v-btn>                
+                                <v-btn prepend-icon="mdi-download" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 45%;">
+                                    Download
+                                </v-btn>
+                            </v-row>
                         </v-col>
                     </v-row>
                         
@@ -123,7 +124,20 @@ export default {
 };
 </script>
 <style scoped>
-
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  max-width: 100%;
+  margin: 50px auto;
+  position: relative;
+}
+.image {
+  width: 400px;
+  max-width: 100%;
+}
 .containermain {
         text-align: center;
           align-items: center;

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import NotificationPage from './components/NotificationsPage.vue'
+import NotificationPage from './components/NotificationsPage2.vue'
 
 export default {
   name: 'App',
