@@ -13,7 +13,7 @@
                         <v-col v-for="(item, index) in uniqueCameras" :key="index" cols="6" style=" margin-top: -3%;">
                             <label class="check" >
                                 <input type="checkbox" v-model="selectedCameras" :value="item" :label="item" :checked="selectedCameras.includes(item)">
-                                <span> Camera {{ item }} </span>
+                                <span :style="{ '--class-background-color': 'purple', '--class-text-color': 'white' }"> Camera {{ item }} </span>
                             </label>
                         </v-col>
 
@@ -25,7 +25,7 @@
                         <v-col v-for="(item, index) in uniqueClasses" :key="index" cols="4" style="margin-top: -3%;">
                             <label class="check" >
                                 <input type="checkbox" v-model="selectedClasses" :value="item" :label="item" :checked="selectedClasses.includes(item)">
-                                <span> {{ item }} </span>
+                                <span :style="{ '--class-background-color': classColors[item], '--class-text-color': 'black' }"> {{ item }} </span>
                             </label>
                         </v-col>
                     </v-row>
@@ -52,7 +52,7 @@
                     </v-row>
                     <v-row  style="padding-top: 5%;">
                         <v-col cols="6">
-                            <v-btn  @click="applyFilters" type="submit" class="btn rounded-pill" style="width: 100%;">
+                            <v-btn  @click="applyFilters" type="submit" class="btn rounded-pill" style="width: 100%; background-color: #274C77;color: white;">
                                 Apply
                             </v-btn>  
                         </v-col>
@@ -71,8 +71,20 @@
                     </v-row>
                 </v-card>
             </v-col>
-            <v-col cols="9" class="mt-3">
-                <v-row style="margin-right: 2%;">
+            <v-col v-if="filteredDatasets.length === 0" cols="9" class="mt-3">
+                <v-row  justify="center" align="center">
+                        <v-img 
+                        src="../assets/empty.png" alt="empty pic" 
+                style="max-width: 30%;"></v-img>
+                </v-row>
+                <v-row justify="center" align="center">
+                <h3>
+                    No notifications are found ! 
+                </h3>
+                </v-row>
+            </v-col>
+            <v-col v-else cols="9" class="mt-3">
+                <v-row  style="margin-right: 2%;">
                     <v-col v-for="(item, index) in filteredDatasets" :key="index" cols="3">    <!-- 3*4=12    -->
     <v-hover v-slot="{ isHovering, props }">
                         <v-card class="pa-5 ma-3" style="background-color: white; border: 1px  grey; width: 100%; height: 100%;"         
@@ -107,19 +119,15 @@
                 
                 >
 
-                <v-card height="80vh">
-                    <v-row>
-                        <v-col no-gutters cols="3" style="border-right: 2px solid black;" >
-
-                            <v-row justify="center" style="border-bottom: 2px solid black;padding-top:10%;padding-bottom: 5%;">
+                <v-card>
+                    <v-card-title style="border-bottom: 2px solid black;">
+                    <v-row  style="padding-top:2%;padding-bottom: 2%;padding-left: 7%;">
                                 <h2 class="font-weight-medium"> Notification </h2>
-                            </v-row>
-                            <v-row class="mt-8 mb-6">
-                                <p class="font-weight-medium" style="padding-left: 10%;">  Detected by : </p>
-                            </v-row>
-                            <v-row class="mt-n2 mb-3 ml-10">
-                                    <v-icon icon="mdi-cctv" /> Camera {{ selectedImage.camera}}
-                            </v-row>
+                    </v-row>
+                </v-card-title>
+                <v-card-item style="margin-top:0%;padding-top: 0%;">
+                    <v-row>
+                        <v-col no-gutters cols="3" style="border-right: 2px solid black;" class="ml-0 pl-0" >
                             <v-row class="mt-8 mb-6">
                                 <p class="font-weight-medium" style="padding-left: 10%;">  Detected on : </p>
                             </v-row>
@@ -131,12 +139,19 @@
                                     <v-icon icon="mdi-clock-outline" /> {{selectedImage.time}}  
                                 </v-col>
                             </v-row>
+                            <v-row class="mt-1 mb-6">
+                                <p class="font-weight-medium" style="padding-left: 10%;">  Detected by : </p>
+                            </v-row>
+                            <v-row class="mt-n2 mb-3 ml-10">
+                                    <v-icon icon="mdi-cctv" /> Camera {{ selectedImage.camera}}
+                            </v-row>
+                            
                             <v-row class="mt-8 mb-6">
                                 <p class="font-weight-medium" style="padding-left: 10%;">  Classes detected : </p>
                             </v-row>
-                            <v-row class="mt-n2 mb-10" no-gutters >
+                            <v-row class="mt-n2 mb-6" no-gutters >
                                 <v-col cols="6" class="ml-10">
-                                    <v-icon icon="mdi-circle-slice-8" /> {{selectedImage.classes}}
+                                    <v-icon :color="classColors[selectedImage.classes]" icon="mdi-circle-slice-8" /> {{selectedImage.classes}}
                                 </v-col>
                             </v-row>
                             <v-row class="mt-8 mb-6">
@@ -146,32 +161,102 @@
                                     <v-icon icon="mdi-file-cog-outline" /> {{selectedImage.model}}
                             </v-row>
 
-                            <v-row justify="center">
-                                <v-btn prepend-icon="mdi-close-circle" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 80%;">
-                                    False Detection
-                                </v-btn>
-                                <v-btn prepend-icon="mdi-check-circle" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 80%;">
-                                    Valid Detection
-                                </v-btn>  
-                            </v-row>
-                            <v-row justify="center" >
-                                <v-btn prepend-icon="mdi-delete" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 45%;">
-                                    Ignore
-                                </v-btn>  </v-row>
-                            <v-row justify="center" >              
-                                <v-btn prepend-icon="mdi-download" type="submit" class="btn btn-outline-custom-primary custom-primary-button  custom-outline-primary-button" style="width: 45%;">
-                                    Download
-                                </v-btn>
-                            </v-row>
                         </v-col>
-                        <v-col cols="9">
-                            <v-img style="padding-left: 20%;padding-top: 20%;"
-                                src="static/example.jpg" alt="pc pic" width="90%">
+                        <v-col cols="9" >
+                            <div class="ma-0 pa-0">
+                                <v-img 
+                                class="ma-2 pa-2"
+                                    width="1500"
+                                    :aspect-ratio="16/9"
+                                    src="static/example.jpg" alt="pc pic" >
                             </v-img>
+                            </div>
+                            
                         </v-col>
                     </v-row>
-
-                    
+                </v-card-item>
+            <v-card-item style="border-top: 2px solid black;">
+                        <v-row no-gutters  class="justify-center" style="padding-bottom: 2%;padding-left: 7%;">
+                            <v-col cols="3"> 
+                                <v-btn-group 
+                            
+                                        class="custom-toggle-btn"
+                                        
+                                        variant="outlined"
+                                        >
+                                        <v-btn
+                                            icon
+                                            @click="handleDeleteButtonClick"
+                                            class="custom-toggle-btn-icon"
+                                        >
+                                            <v-icon size="small" class="custom-toggle-btn-icon-icon">mdi-close-circle</v-icon>
+                                        </v-btn>
+                                        <v-btn
+                                            @click="handleDeleteButtonClick"
+                                            class="custom-toggle-btn-text"
+                                        >
+                                            <h4>False Detection</h4>
+                                        </v-btn>
+                                    </v-btn-group>
+                            </v-col>
+                            <v-col cols="3">
+                                <v-btn-group
+                                        class="custom-toggle-btn"
+                                        divided
+                                        variant="outlined"
+                                        >
+                                        <v-btn
+                                            
+                                            icon
+                                            @click="handleDeleteButtonClick"
+                                            class="custom-toggle-btn-icon"
+                                        >
+                                            <v-icon size="small" class="custom-toggle-btn-icon-icon">mdi-check-circle</v-icon>
+                                        </v-btn>
+                                        <v-btn
+                                            @click="handleDeleteButtonClick"
+                                            class="custom-toggle-btn-text"
+                                        >
+                                            <h4>Valid Detection</h4>
+                                        </v-btn>
+                                    </v-btn-group>
+                            </v-col>
+                            <v-col cols="3">
+                                <v-btn-group
+                                        class="custom-toggle-btn"
+                                        divided
+                                        variant="outlined"
+                                        >
+                                        <v-btn
+                                            
+                                            icon
+                                            @click="handleDeleteButtonClick"
+                                            class="custom-toggle-btn-icon"
+                                        >
+                                            <v-icon size="small" class="custom-toggle-btn-icon-icon">mdi-download</v-icon>
+                                        </v-btn>
+                                        <v-btn
+                                            @click="handleDeleteButtonClick"
+                                            class="custom-toggle-btn-text"
+                                        >
+                                            <h4>Download</h4>
+                                        </v-btn>
+                                    </v-btn-group>
+                            </v-col>
+                            <v-col no-gutters  cols="3">
+                                <v-btn-group class="custom-toggle-btn" divided variant="outlined">
+                                    <v-btn icon class="custom-toggle-btn-icon">
+                                        <v-icon size="small" class="custom-toggle-btn-icon-icon">
+                                            mdi-delete
+                                        </v-icon>
+                                    </v-btn>
+                                    <v-btn class="custom-toggle-btn-text">
+                                        <h4>Ignore</h4>
+                                    </v-btn>
+                                </v-btn-group>
+                            </v-col>
+                        </v-row>
+                    </v-card-item>
 
 
                 </v-card>
@@ -189,17 +274,17 @@ export default {
                 {
                     classId: "0",
                     className: "Oil",
-                    classColor: "Blue",
+                    classColor: "blue",
                 },
                 {
                     classId: "1",
                     className: "Bottle",
-                    classColor: "Grey",
+                    classColor: "red",
                 },
                 {
                     classId: "2",
-                    className: "Water",
-                    classColor: "lightblue",
+                    className: "water",
+                    classColor: "yellow",
                 }
             ],
             datasets: [
@@ -309,6 +394,13 @@ export default {
         }
         return Array.from(classlist);
     },
+    classColors() {
+        const classColors = {};
+        for (const classData of this.data.classesColor) {
+        classColors[classData.className] = classData.classColor;
+        }
+        return classColors;
+    },
     filteredCameras() {
         return this.data.datasets.filter(item => this.selectedCameras.includes(item.camera));
     },
@@ -378,6 +470,48 @@ export default {
 };
 </script>
 <style scoped>
+.custom-toggle-btn { /* Match the outlined variant's border color */
+
+  border-radius:2%; /* Remove the button's border radius */
+}
+.custom-toggle-btn-icon {
+    background-color: #22223b;
+    color: #E7ECEF;
+}
+
+.custom-toggle-btn-text {
+    background-color: #274C77;
+    color: #E7ECEF;
+    width: 12em;
+}
+.custom-toggle-btn:hover .custom-toggle-btn-icon {
+    background-color: #274C77;
+    color: #E7ECEF;
+}
+
+.custom-toggle-btn:hover .custom-toggle-btn-text {
+    background-color: #22223b;
+    color: #E7ECEF;
+}
+.button-content {
+    display:flex;
+}
+
+.icon-container {
+    width: 20%;
+    left: 0;
+    height: 100%;
+}
+
+.text-container {
+    width: 80%;
+}
+
+.icon {
+    font-size: 24px; /* Adjust as needed */
+}
+
+
 .card {
   display: flex;
   align-items: stretch; /* Ensures both columns are of equal height */
@@ -403,8 +537,8 @@ label.check span {
 }
 label.check input:checked + span {
   border-color: #8f37aa;
-    background-color: #8f37aa;
-    color: #fff;
+  background-color: var(--class-background-color);
+  color: var(--class-text-color);
 }
 
 #app {
