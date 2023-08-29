@@ -1,5 +1,4 @@
 <template >
-    <v-container fluid class="surface-variant" style=" width: 100%;background-color: #E7ECEF;">
         <v-row justify="center">
             <h1 class="ma-3">Notification List</h1>
         </v-row>
@@ -262,7 +261,6 @@
                 </v-card>
             </v-dialog>
         </v-row>
-    </v-container>
 </template>
 <script>
 export default {
