@@ -1,0 +1,1 @@
+{"version":"0.1.0","name":"vue-website","dependencies":{"@chenfengyuan/vue-carousel":{"version":"2.0.0"},"@mdi/font":{"version":"5.9.55"},"core-js":{"version":"3.32.0"},"roboto-fontface":{"version":"0.10.0"},"vue-carousel":{"version":"0.18.0"},"vue-flag-icon":{"version":"2.1.0"},"vue":{"version":"3.3.4"},"vuetify":{"version":"3.3.13"},"webfontloader":{"version":"1.6.28"}}}
