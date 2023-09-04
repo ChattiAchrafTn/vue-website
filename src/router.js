@@ -1,4 +1,4 @@
-import { createRouter } from 'vue-router'
+import { createRouter , createWebHistory} from 'vue-router'
 import DatasetPageVue from './components/DatasetPage.vue'
 import ClassesPageVue from './components/ClassesPage.vue'
 import NotificationsPageVue from './components/NotificationsPage2.vue'
@@ -6,6 +6,7 @@ import LoginPageVue from './components/LoginPage.vue'
 import MainPageVue from './components/MainPage.vue'
 
 const router = createRouter({
+    history: createWebHistory(),
     routes: [
       {
         path: '/',
