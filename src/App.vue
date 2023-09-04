@@ -1,10 +1,12 @@
 <template>
+  <v-app>
   <v-container fluid class="surface-variant" style=" width: 100%;
     height: 100%;background-color: #E7ECEF;">
       
-<navbarComp></navbarComp>
+    <navbarComp></navbarComp>
     <ClassesPage/>
   </v-container>
+</v-app>
 </template>
   
   <script>
