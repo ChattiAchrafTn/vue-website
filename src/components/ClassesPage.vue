@@ -1,10 +1,9 @@
 <template>
     <v-row justify="space-between"> 
-        <v-col cols="6" class="ml-12">    
+        <v-col cols="6" class="ml-12 mt-12">    
             <p class="text-h6">Classes</p>
             <p class="caption ma-1 ml-10">Last updated on 01/06/23 at 11:25</p>
         </v-col>
-
     </v-row>
     <v-divider :thickness="2" color="black"></v-divider>
     <v-row class="mt-1" justify="center">

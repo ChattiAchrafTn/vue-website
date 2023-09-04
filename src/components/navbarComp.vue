@@ -85,23 +85,22 @@
       
       </v-navigation-drawer>
     <v-app-bar
-      style="background-color: #274C77;" elevate-on-scroll
-      
+    
+    id="app-bar"
+      flat
+      style="background-color: #274C77;" elevate-on-scroll      
     >
 
       <v-img 
         src="../assets/smartech_White.png"></v-img>
-        <router-link to="/">Home</router-link>
-      <v-btn variant="text" color="#E7ECEF">Notifications</v-btn>
-      <v-btn variant="text" color="#A3CEF1">Detection</v-btn>
+      <v-btn to="/" variant="text" color="#E7ECEF">Notifications</v-btn>
+      <v-btn variant="text" color="#E7ECEF">Detection</v-btn>
       <v-btn variant="text" color="#E7ECEF">Train</v-btn>
-      <v-btn variant="text" color="#E7ECEF">Dataset</v-btn>
+      <v-btn to="/Dataset" color="#E7ECEF">Dataset</v-btn>
       <v-btn variant="text" color="#E7ECEF">Models</v-btn>
-      <v-btn variant="text" append-icon="mdi-menu-down" color="#E7ECEF">Users</v-btn>
-      <v-btn variant="text" append-icon="mdi-menu-down" color="#E7ECEF">Classes</v-btn>
+      <v-btn variant="text" color="#E7ECEF">Users</v-btn>
+      <v-btn to="/Classes" color="#E7ECEF">Classes</v-btn>
       <v-spacer></v-spacer>
-
-
 
       <v-btn variant="text" color="#E7ECEF" append-icon="mdi-menu" @click.stop="drawer = !drawer">User Name</v-btn>
     </v-app-bar>

@@ -1,7 +1,11 @@
 <template >
-        <v-row justify="center">
-            <h1 class="ma-3">Notification List</h1>
-        </v-row>
+    <v-row justify="space-between"> 
+        <v-col cols="6" class="ml-12 mt-12">    
+            <p class="text-h6">Notifications</p>
+            <p class="caption ma-1 ml-10">Last notification on 01/06/23 at 11:25</p>
+        </v-col>
+    </v-row>
+    <v-divider :thickness="2" color="black"></v-divider>
         <v-row no-gutters >
             <v-col  cols="3">    <!-- 3*4=12    -->
                 <v-card class="pa-6 ma-6" style="background-color: white; height: 100%;" >

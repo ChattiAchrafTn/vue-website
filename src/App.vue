@@ -4,14 +4,13 @@
     height: 100%;background-color: #E7ECEF;">
       
     <navbarComp></navbarComp>
-    <ClassesPage/>
+    <router-view></router-view>
   </v-container>
 </v-app>
 </template>
   
   <script>
   import navbarComp from './components/navbarComp.vue';
-  import ClassesPage from './components/ClassesPage.vue'
   
   
 export default {
@@ -33,7 +32,6 @@ export default {
   
     components: {
       navbarComp,
-      ClassesPage,
     },
   name: 'App',
 
