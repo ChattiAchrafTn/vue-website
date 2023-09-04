@@ -1,52 +1,61 @@
 <template >
     <v-row>
-        <v-col cols="6">    
-            <p>Dataset Name</p>
-            <p class="caption ma-3">Last updated on 01/06/23 at 11:25</p>
+        <v-col cols="6" class="ml-12">    
+            <p class="text-h6">Dataset Name</p>
+            <p class="caption ma-1 ml-10">Last updated on 01/06/23 at 11:25</p>
         </v-col>
-        <v-col cols="6">
-            <v-btn> Add to Dataset</v-btn>
-            <v-btn> Annotate </v-btn>
-            
-        </v-col>
+
     </v-row>
-    <v-row>
-        <v-col cols="3">    <!-- 3*4=12    -->
-            <v-card class="pa-6 ma-6" style="background-color: white; height: 100%;" >
+    <v-divider :thickness="2" color="black"></v-divider>
+    <v-row class="mt-1">
+        <v-col cols="3"> 
+            <v-row>
+                <v-card class=" ml-5 my-3" style="background-color: white; " min-width="90%" >
+                    <v-btn variant="text" class="text-none" min-width="100%" prepend-icon="mdi-plus-circle"> Add to Dataset</v-btn>
+                </v-card> 
+            </v-row>
+            <v-row>
+                <v-card class=" ml-5 my-3" style="background-color: white;" min-width="90%" >
+                    <v-btn variant="text" class="text-none" min-width="100%" prepend-icon="mdi-minus-circle"> Delete Dataset </v-btn>
+                </v-card> 
+            </v-row>
+            <v-row>
+                
+            <v-card class="px-6 ml-5 my-3" style="background-color: white; height: 100%;" min-width="90%" >
                 <v-row class="pt-3">
                     <h2> Overview </h2>  
                 </v-row>
                 <v-row class="pa-4">
                     <v-col style="margin-top: -3%;">
                         <v-row class="pl-1">
-                            <p>48 Images</p>
+                            <p>{{ totalImages }} Images</p>
                         </v-row>
                         <v-row class="pl-4">
-                            <v-icon size="x-small" icon="mdi-checkbox-marked-circle"></v-icon> <p class="text-caption">20 Annotated</p>
+                            <v-icon size="x-small" icon="mdi-checkbox-marked-circle"></v-icon> <p class="text-caption">{{totalAnnotatedImages}} Annotated</p>
                         </v-row>
                         <v-row class="pl-4">
-                            <v-icon size="x-small" icon="mdi-circle-outline"></v-icon> <p class="text-caption">28 Unannotated</p>
+                            <v-icon size="x-small" icon="mdi-circle-outline"></v-icon> <p class="text-caption">{{totalUnannotatedImages}} Unannotated</p>
                         </v-row>
                                                 
                     </v-col>
                 </v-row>
-                <v-row  v-for="(item, index) in uniqueClasses" :key="index">
+                <v-row  v-for="(item, index) in uniqueClasses" :key="index" class="mt-n3 mb-3">
                     <v-col>
                         <label class="check" >
-                            <input type="checkbox" v-model="selectedClasses" :value="item" :label="item" :checked="selectedClasses.includes(item)">
+                            <input type="checkbox" v-model="selectedClasses" :value="item" :label="item" :checked="selectedClasses.includes(item)" @change="updateFilters">
                             <span :style="{ '--class-background-color': classColors[item], '--class-text-color': 'black' }"> 
                                 <v-row class="pb-1" justify="center">
-                                    <p class="text-subtitle-1">{{ item }} Images : </p> 20
+                                    <p class="text-subtitle-1">{{ item }} Images : </p> {{ classCounts[item].total }}
                                 </v-row>
                                 <v-row>
                                     <v-col cols="6">
                                         <v-row>
-                                            <v-icon size="x-small" icon="mdi-checkbox-marked-circle"></v-icon> <p class="text-caption">10 Annotated</p>
+                                            <v-icon size="x-small" icon="mdi-checkbox-marked-circle"></v-icon> <p class="text-caption">{{ classCounts[item].annotated }} Annotated</p>
                                         </v-row>
                                     </v-col>
                                     <v-col cols="6">
                                         <v-row>
-                                            <v-icon size="x-small" icon="mdi-circle-outline"></v-icon> <p class="text-caption">10 Unannotated</p>
+                                            <v-icon size="x-small" icon="mdi-circle-outline"></v-icon> <p class="text-caption">{{ classCounts[item].unannotated }} Unannotated</p>
                                         </v-row>
                                     </v-col>
                                 </v-row>
@@ -54,77 +63,47 @@
                         </label>
                     </v-col>
                 </v-row>
-                <v-row  style="padding-top: 5%;">
-                    <v-col cols="6">
-                        <v-btn  @click="applyFilters" type="submit" class="btn rounded-pill" style="width: 100%; background-color: #274C77;color: white;">
-                            Apply
-                        </v-btn>  
-                    </v-col>
-                    <v-col cols="6">
-                        <div
-                            style="padding-top: 5%;">
-                            <a
-                            href="#"
-                            class="text-decoration-none"
-                            @click="clearAllFilters"
-                            ><v-icon aria-hidden="false">mdi-close</v-icon>Clear all
-                        </a>
-                        </div>
-
-                    </v-col>
-                </v-row>
             </v-card>
+            </v-row>  <!-- 3*4=12    -->
         </v-col>
-        <v-col v-if="filteredDatasets.length === 0" cols="9" class="mt-3">
-            <v-row  justify="center" align="center">
+        
+        <v-col cols="9" class="mt-3">
+            <v-row >
+                <v-btn-toggle mandatory class="w-100" 
+      v-model="toggle">
+
+                    <v-btn variant="text" min-width="50%" class="text-none notselected-class" selected-class="selected-class"  value="unannotated">
+                        
+                        <h4 > Unannotated Data _</h4>
+                        <h4 >_ {{totalUnannotatedImages}} </h4>
+                    </v-btn>
+
+                    <v-btn variant="text" min-width="50%" class="text-none notselected-class" selected-class="selected-class"  value="annotated">
+                        <h4>Annotated Data _</h4>
+                        <h4>_ {{totalAnnotatedImages}} </h4>
+                    </v-btn>
+
+                </v-btn-toggle>
+            </v-row>
+            <v-row  justify="center" align="center" v-if="filteredImages.length === 0">
                     <v-img 
                     src="../assets/empty.png" alt="empty pic" 
-            style="max-width: 30%;"></v-img>
+                style="max-width: 30%;"></v-img>
             </v-row>
-            <v-row justify="center" align="center">
-            <h3>
-                No notifications are found ! 
-            </h3>
-            </v-row>
-        </v-col>
-        <v-col v-else cols="9" class="mt-3">
-            <v-row style="margin-right: 1%;">
 
-                <v-col cols="6">  
-                    <v-row  justify="center">
-                        <v-btn variant="text" class="text-none" width="100%" style="border-radius: 0%; border-bottom: 4px solid #274C77;">
-                            <h4 style="color: #274C77;"> Unannotated Data _</h4>
-                            <h4 style="color: #274C77;">_ 20 </h4>
-                        </v-btn>
-                    </v-row>
-                </v-col>
-                <v-col cols="6">
-                    <v-row  justify="center">
-                        <v-btn variant="text" class="text-none" width="100%" style="border-radius: 0%; border-bottom: 2px solid #8B8C89;">
-                            <h4>Annotated Data _</h4>
-                            <h4>_ 28 </h4>
-                        </v-btn>
-                    </v-row>
-                </v-col>
-            </v-row>
             <v-row  style="margin-right: 2%;">
-                <v-col v-for="(item, index) in filteredDatasets" :key="index" cols="2">    <!-- 3*4=12    -->
+                <v-col v-for="(item, index) in filteredImages" :key="index" cols="2">    <!-- 3*4=12    -->
                     <v-hover v-slot="{ isHovering, props }">
                     <v-card class="pa-5 ma-3" style="background-color: white; border: 1px  grey; width: 100%; height: 100%;"         
                     v-bind="props"
                         :elevation="isHovering ? 24 : 6"
                         @click="openImageDialog(item)" 
                         >
-                        <v-row style="padding-top: 5%;margin-bottom: 5%;">
+                        <v-row style="padding-top: 5%;padding-bottom: 5%;">
                             
                             <v-img 
           class="align-end" cover
                     :src="item.image" alt="pc pic" width="40%"></v-img>
-                        </v-row>
-                        <v-row justify="center" style="padding-bottom: 5%;">
-
-                            <p class="font-weight-medium"> Detection on Camera {{ item.camera }} </p>
-                            
                         </v-row>
 
                     </v-card>
@@ -152,7 +131,7 @@
                 <v-row>
                     <v-col no-gutters cols="3" style="border-right: 2px solid black;" class="ml-0 pl-0" >
                         <v-row class="mt-8 mb-6">
-                            <p class="font-weight-medium" style="padding-left: 10%;">  Detected on : </p>
+                            <p class="font-weight-medium" style="padding-left: 10%;">  Last modification on : </p>
                         </v-row>
                         <v-row class="mt-n2 mb-10" no-gutters >
                             <v-col cols="6" class="ml-10">
@@ -161,29 +140,15 @@
                             <v-col cols="4">
                                 <v-icon icon="mdi-clock-outline" /> {{selectedImage.time}}  
                             </v-col>
-                        </v-row>
-                        <v-row class="mt-1 mb-6">
-                            <p class="font-weight-medium" style="padding-left: 10%;">  Detected by : </p>
-                        </v-row>
-                        <v-row class="mt-n2 mb-3 ml-10">
-                                <v-icon icon="mdi-cctv" /> Camera {{ selectedImage.camera}}
-                        </v-row>
-                        
+                        </v-row>                        
                         <v-row class="mt-8 mb-6">
-                            <p class="font-weight-medium" style="padding-left: 10%;">  Classes detected : </p>
+                            <p class="font-weight-medium" style="padding-left: 10%;">  Classes annotated : </p>
                         </v-row>
                         <v-row class="mt-n2 mb-6" no-gutters >
                             <v-col cols="6" class="ml-10">
                                 <v-icon :color="classColors[selectedImage.classes]" icon="mdi-circle-slice-8" /> {{selectedImage.classes}}
                             </v-col>
                         </v-row>
-                        <v-row class="mt-8 mb-6">
-                            <p class="font-weight-medium" style="padding-left: 10%;">  Model used : </p>
-                        </v-row>
-                        <v-row class="mt-n2 mb-3 ml-10">
-                                <v-icon icon="mdi-file-cog-outline" /> {{selectedImage.model}}
-                        </v-row>
-
                     </v-col>
                     <v-col cols="9" >
                         <div class="ma-0 pa-0">
@@ -191,7 +156,7 @@
                             class="ma-2 pa-2"
                                 width="1500"
                                 :aspect-ratio="16/9"
-                                src="static/example.jpg" alt="pc pic" >
+                                :src=selectedImage.image alt="pc pic" >
                         </v-img>
                         </div>
                         
@@ -200,7 +165,7 @@
             </v-card-item>
         <v-card-item style="border-top: 2px solid black;">
                     <v-row no-gutters  class="justify-center" style="padding-bottom: 2%;padding-left: 7%;">
-                        <v-col cols="3"> 
+                        <v-col cols="6"> 
                             <v-btn-group 
                         
                                     class="custom-toggle-btn"
@@ -218,55 +183,11 @@
                                         @click="handleDeleteButtonClick"
                                         class="custom-toggle-btn-text"
                                     >
-                                        <h4>False Detection</h4>
+                                        <h4>Cancel</h4>
                                     </v-btn>
                                 </v-btn-group>
                         </v-col>
-                        <v-col cols="3">
-                            <v-btn-group
-                                    class="custom-toggle-btn"
-                                    divided
-                                    variant="outlined"
-                                    >
-                                    <v-btn
-                                        
-                                        icon
-                                        @click="handleDeleteButtonClick"
-                                        class="custom-toggle-btn-icon"
-                                    >
-                                        <v-icon size="small" class="custom-toggle-btn-icon-icon">mdi-check-circle</v-icon>
-                                    </v-btn>
-                                    <v-btn
-                                        @click="handleDeleteButtonClick"
-                                        class="custom-toggle-btn-text"
-                                    >
-                                        <h4>Valid Detection</h4>
-                                    </v-btn>
-                                </v-btn-group>
-                        </v-col>
-                        <v-col cols="3">
-                            <v-btn-group
-                                    class="custom-toggle-btn"
-                                    divided
-                                    variant="outlined"
-                                    >
-                                    <v-btn
-                                        
-                                        icon
-                                        @click="handleDeleteButtonClick"
-                                        class="custom-toggle-btn-icon"
-                                    >
-                                        <v-icon size="small" class="custom-toggle-btn-icon-icon">mdi-download</v-icon>
-                                    </v-btn>
-                                    <v-btn
-                                        @click="handleDeleteButtonClick"
-                                        class="custom-toggle-btn-text"
-                                    >
-                                        <h4>Download</h4>
-                                    </v-btn>
-                                </v-btn-group>
-                        </v-col>
-                        <v-col no-gutters  cols="3">
+                        <v-col no-gutters  cols="6">
                             <v-btn-group class="custom-toggle-btn" divided variant="outlined">
                                 <v-btn icon class="custom-toggle-btn-icon">
                                     <v-icon size="small" class="custom-toggle-btn-icon-icon">
@@ -274,7 +195,7 @@
                                     </v-icon>
                                 </v-btn>
                                 <v-btn class="custom-toggle-btn-text">
-                                    <h4>Ignore</h4>
+                                    <h4>Save</h4>
                                 </v-btn>
                             </v-btn-group>
                         </v-col>
@@ -290,7 +211,9 @@
 export default {
 data() {
 return {
-    filteredDatasets: [],
+        filteredDatasets: [],
+    
+    toggle: 'unannotated',
     data: {
         classesColor:[
             {
@@ -327,7 +250,7 @@ return {
                 Annotation: '0 0.8 0.8 0.7 0.65'
             },
             {
-                image: "/static/example.jpg",
+                image: "/static/exampleNotAnnotated.jpg",
                 classes: 'Oil',
                 dateAdded: '20/7/2023', 
                 timeAdded: '18:05',
@@ -335,7 +258,7 @@ return {
                 Annotation: ''
             },
             {
-                image: "/static/example.jpg",
+                image: "/static/exampleNotAnnotated.jpg",
                 classes: 'Oil',
                 dateAdded: '20/7/2023', 
                 timeAdded: '18:05',
@@ -343,7 +266,7 @@ return {
                 Annotation: ''
             },
             {
-                image: "/static/example.jpg",
+                image: "/static/exampleNotAnnotated.jpg",
                 classes: 'Oil',
                 dateAdded: '20/7/2023', 
                 timeAdded: '18:05',
@@ -351,7 +274,7 @@ return {
                 Annotation: ''
             },
             {
-                image: "/static/example.jpg",
+                image: "/static/exampleNotAnnotated.jpg",
                 classes: 'Oil',
                 dateAdded: '20/7/2023', 
                 timeAdded: '18:05',
@@ -359,7 +282,7 @@ return {
                 Annotation: ''
             },
             {
-                image: "/static/example.jpg",
+                image: "/static/exampleNotAnnotated.jpg",
                 classes: 'Water',
                 dateAdded: '20/7/2023', 
                 timeAdded: '18:05',
@@ -375,7 +298,7 @@ return {
                 Annotation: '0 0.8 0.8 0.7 0.65'
             },
             {
-                image: "/static/example.jpg",
+                image: "/static/exampleNotAnnotated.jpg",
                 classes: 'Bottle',
                 dateAdded: '20/7/2023', 
                 timeAdded: '18:05',
@@ -393,6 +316,43 @@ created(){
 this.clearAllFilters();
 },
 computed: {
+    filteredImages() {
+    if (this.toggle === 'unannotated') {
+      return this.filteredDatasets.filter(item => item.Annotated === 'false');
+    } else if (this.toggle === 'annotated') {
+      return this.filteredDatasets.filter(item => item.Annotated === 'true');
+    }
+    return this.filteredDatasets;
+  },
+    totalImages() {
+        console.log(this.data.datasets.length);
+    return this.data.datasets.length;
+  },
+  totalAnnotatedImages() {
+    return this.data.datasets.filter(item => item.Annotated === 'true').length;
+  },
+  totalUnannotatedImages() {
+    return this.data.datasets.filter(item => item.Annotated === 'false').length;
+  },
+  classCounts() {
+    const counts = {};
+    this.data.datasets.forEach(item => {
+      if (!counts[item.classes]) {
+        counts[item.classes] = {
+          total: 0,
+          annotated: 0,
+          unannotated: 0
+        };
+      }
+      counts[item.classes].total++;
+      if (item.Annotated === 'true') {
+        counts[item.classes].annotated++;
+      } else {
+        counts[item.classes].unannotated++;
+      }
+    });
+    return counts;
+  },
 uniqueClasses() {
     const classlist = new Set();
     for (const item of this.data.datasets) {
@@ -412,6 +372,17 @@ filteredClasses() {
 },
 },
 methods: {
+    updateFilters() {
+    // Filter the images immediately based on selectedClasses
+    let filteredData = this.data.datasets;
+
+    if (this.selectedClasses.length > 0) {
+        filteredData = filteredData.filter(item => this.selectedClasses.includes(item.classes));
+    }
+
+    // Update the filteredDatasets with the filtered images
+    this.filteredDatasets = filteredData;
+  },
   getClassColor(className) {
 const classObj = this.classesColor.find(item => item.className === className);
 return classObj ? classObj.classColor : '';
@@ -422,8 +393,6 @@ openImageDialog(item) {
     this.imagedialog = true;
 },
 clearAllFilters() {
-    this.selectedCameras = [];
-    this.selectedModels = [];
     this.selectedClasses = [];
     this.applyFilters();
 },
@@ -462,6 +431,15 @@ uniqueModels: {
 };
 </script>
 <style scoped>
+.selected-class {
+    color: #274C77 !important;
+    border-radius: 0% !important; 
+    border-bottom: 4px solid #274C77 !important;
+}
+.notselected-class {
+    color: #8B8C89;
+    border-bottom: 4px solid #8B8C89;
+}
 .custom-toggle-btn { /* Match the outlined variant's border color */
 
 border-radius:2%; /* Remove the button's border radius */

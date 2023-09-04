@@ -15,6 +15,7 @@
     "vue": "^3.3.4",
     "vue-carousel": "^0.18.0",
     "vue-flag-icon": "^2.1.0",
+    "vue-router": "^4.2.4",
     "vuetify": "^3.3.13",
     "webfontloader": "^1.0.0"
   },

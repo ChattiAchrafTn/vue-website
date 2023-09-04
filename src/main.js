@@ -3,11 +3,11 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import "./style/mainStyle.css"
-import FlagIcon from 'vue-flag-icon'
+import router from './router'
 
 loadFonts()
 
 createApp(App)
   .use(vuetify)
-  .use(FlagIcon)
+  .use(router)
   .mount('#app')
