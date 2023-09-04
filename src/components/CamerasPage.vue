@@ -8,7 +8,7 @@
     </v-row>
     <v-divider :thickness="2" color="black"></v-divider>
     <v-row class="mt-1" justify="center">
-      <v-col cols="2"> 
+      <v-col cols="2">
             <v-row>
                 <v-card class=" ml-5 my-3" style="background-color: white; " min-width="90%" >
                     <v-btn variant="text" class="text-none" min-width="100%" prepend-icon="mdi-plus-circle" @click="openAddDialog()" > Add Class</v-btn>
@@ -261,4 +261,3 @@ data() {
     },
 };
 </script>
-
