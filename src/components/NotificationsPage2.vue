@@ -1,5 +1,5 @@
 <template >
-    <v-row justify="space-between"> 
+    <v-row justify="space-between" class="mt-2"> 
         <v-col cols="6" class="ml-12 mt-12">    
             <p class="text-h6">Notifications</p>
             <p class="caption ma-1 ml-10">Last notification on 01/06/23 at 11:25</p>

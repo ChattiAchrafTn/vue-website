@@ -98,7 +98,7 @@
       <v-btn variant="text" color="#E7ECEF">Train</v-btn>
       <v-btn to="/Dataset" color="#E7ECEF">Dataset</v-btn>
       <v-btn variant="text" color="#E7ECEF">Models</v-btn>
-      <v-btn variant="text" color="#E7ECEF">Users</v-btn>
+      <v-btn to="/Users" color="#E7ECEF">Users</v-btn>
       <v-btn to="/Classes" color="#E7ECEF">Classes</v-btn>
       <v-spacer></v-spacer>
 

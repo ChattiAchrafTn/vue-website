@@ -1,12 +1,12 @@
 <template>
-    <v-row justify="space-between"> 
+    <v-row justify="space-between" class="mt-2"> 
         <v-col cols="6" class="ml-12 mt-12">    
             <p class="text-h6">Classes</p>
             <p class="caption ma-1 ml-10">Last updated on 01/06/23 at 11:25</p>
         </v-col>
     </v-row>
     <v-divider :thickness="2" color="black"></v-divider>
-    <v-row class="mt-1" justify="center">
+    <v-row  class="mt-3" justify="center">
       <v-col cols="2"> 
             <v-row>
                 <v-card class=" ml-5 my-3" style="background-color: white; " min-width="90%" >
@@ -36,8 +36,8 @@
                 </v-card>
             </v-row>
                     </v-col>
-        <v-col cols="9">
-            <v-card >
+        <v-col cols="10">
+            <v-card class="mr-10">
                 <v-row justify="center" class="text-center pt-2" style="background-color:darkgrey;">
                     <v-col cols="2">
                         <span>Id</span>

@@ -1,5 +1,5 @@
 <template >
-    <v-row>
+    <v-row justify="space-between" class="mt-2"> 
         <v-col cols="6" class="ml-12 mt-12">    
             <p class="text-h6">Dataset Name</p>
             <p class="caption ma-1 ml-10">Last updated on 01/06/23 at 11:25</p>
@@ -7,7 +7,7 @@
 
     </v-row>
     <v-divider :thickness="2" color="black"></v-divider>
-    <v-row class="mt-1">
+    <v-row  class="mt-3" justify="center">
         <v-col cols="3"> 
             <v-row>
                 <v-card class=" ml-5 my-3" style="background-color: white; " min-width="90%" >
@@ -68,7 +68,7 @@
         </v-col>
         
         <v-col cols="9" class="mt-3">
-            <v-row >
+            <v-row class="ml-2 mr-4">
                 <v-btn-toggle mandatory class="w-100" 
       v-model="toggle">
 
@@ -85,13 +85,13 @@
 
                 </v-btn-toggle>
             </v-row>
-            <v-row  justify="center" align="center" v-if="filteredImages.length === 0">
+            <v-row justify="center" align="center" v-if="filteredImages.length === 0">
                     <v-img 
                     src="../assets/empty.png" alt="empty pic" 
                 style="max-width: 30%;"></v-img>
             </v-row>
 
-            <v-row  style="margin-right: 2%;">
+            <v-row style="margin-right: 2%;">
                 <v-col v-for="(item, index) in filteredImages" :key="index" cols="2">    <!-- 3*4=12    -->
                     <v-hover v-slot="{ isHovering, props }">
                     <v-card class="pa-5 ma-3" style="background-color: white; border: 1px  grey; width: 100%; height: 100%;"         

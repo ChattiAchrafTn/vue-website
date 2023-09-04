@@ -2,6 +2,7 @@ import { createRouter , createWebHashHistory } from 'vue-router'
 import DatasetPageVue from './components/DatasetPage.vue'
 import ClassesPageVue from './components/ClassesPage.vue'
 import NotificationsPageVue from './components/NotificationsPage2.vue'
+import UsersPageVue from './components/UsersPage.vue'
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -20,6 +21,11 @@ const router = createRouter({
         path: '/',
         name: 'Notifications',
         component: NotificationsPageVue,
+      },
+      {
+        path: '/Users',
+        name: 'Users',
+        component: UsersPageVue,
       },
     ]
   });
