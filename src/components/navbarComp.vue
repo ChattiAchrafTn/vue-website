@@ -94,8 +94,8 @@
       <v-img 
         src="../assets/smartech_White.png"></v-img>
       <v-btn to="/" variant="text" color="#E7ECEF">Notifications</v-btn>
-      <v-btn variant="text" color="#E7ECEF">Detection</v-btn>
-      <v-btn variant="text" color="#E7ECEF">Train</v-btn>
+      <v-btn to="/Detection" color="#E7ECEF">Detection</v-btn>
+      <v-btn to="/Train" color="#E7ECEF">Train</v-btn>
       <v-btn to="/Dataset" color="#E7ECEF">Dataset</v-btn>
       <v-btn variant="text" color="#E7ECEF">Models</v-btn>
       <v-btn to="/Users" color="#E7ECEF">Users</v-btn>

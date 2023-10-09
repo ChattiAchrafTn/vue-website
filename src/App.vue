@@ -4,13 +4,13 @@
     height: 100%;background-color: #E7ECEF;">
       
     <navbarComp></navbarComp>
-    <router-view></router-view>
+    <router-view></router-view> 
   </v-container>
 </v-app>
 </template>
   
   <script>
-  import navbarComp from './components/navbarComp.vue';
+import navbarComp from './components/navbarComp.vue';
   
   
 export default {

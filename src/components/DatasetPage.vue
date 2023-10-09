@@ -4,7 +4,6 @@
             <p class="text-h6">Dataset Name</p>
             <p class="caption ma-1 ml-10">Last updated on 01/06/23 at 11:25</p>
         </v-col>
-
     </v-row>
     <v-divider :thickness="2" color="black"></v-divider>
     <v-row  class="mt-3" justify="center">

@@ -1,5 +1,4 @@
 <template>
-
     <v-container class="background d-flex justify-center " fluid fill-height>
         <v-snackbar globalTop color="green" v-model="snackbar">
         Login Successful
